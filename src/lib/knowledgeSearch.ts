@@ -79,3 +79,38 @@ export function searchKnowledge(
 
   return results.slice(0, limit);
 }
+
+export const MIN_CONFIDENCE_SCORE = 3;
+
+export const FALLBACK_MESSAGE =
+  "Je n'ai pas trouvé de réponse officielle correspondant à votre demande dans notre base de connaissances. Pour obtenir une information vérifiée et à jour, nous vous invitons à contacter directement notre accueil.";
+
+export interface AssistantResponse {
+  content: string;
+  source?: string;
+  matched: boolean;
+  score?: number;
+}
+
+export function getAssistantResponse(
+  query: string,
+  minScore = MIN_CONFIDENCE_SCORE,
+  entries: KnowledgeEntry[] = knowledgeBase,
+): AssistantResponse {
+  const results = searchKnowledge(query, entries);
+  const bestMatch = results[0];
+
+  if (bestMatch && bestMatch.score >= minScore) {
+    return {
+      content: bestMatch.entry.answer,
+      source: bestMatch.entry.source,
+      matched: true,
+      score: bestMatch.score,
+    };
+  }
+
+  return {
+    content: FALLBACK_MESSAGE,
+    matched: false,
+  };
+}

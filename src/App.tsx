@@ -3,41 +3,22 @@ import ChatHeader from "./components/ChatHeader";
 import ChatMessage from "./components/ChatMessage";
 import ChatInput from "./components/ChatInput";
 import SuggestedQuestions from "./components/SuggestedQuestions";
+import { getAssistantResponse } from "./lib/knowledgeSearch";
 import type { ChatMessage as ChatMessageType } from "./types";
 import "./App.css";
 
 function createMessage(
   role: ChatMessageType["role"],
   content: string,
+  source?: string,
 ): ChatMessageType {
   return {
     id: crypto.randomUUID(),
     role,
     content,
     timestamp: new Date(),
+    source,
   };
-}
-
-function getDemoResponse(question: string): string {
-  const text = question.toLowerCase();
-
-  if (/course|cours|formation|program|programme/.test(text)) {
-    return "This demo does not yet contain verified course information. In the next development stage, we will connect a knowledge base so I can answer using approved business information.";
-  }
-
-  if (/fee|fees|price|cost|prix|tarif|combien/.test(text)) {
-    return "I don't have verified pricing information yet. Please contact the business directly to confirm its current fees. This demo will later retrieve prices from the approved knowledge base.";
-  }
-
-  if (/register|registration|inscri|enrol/.test(text)) {
-    return "I don't have the official registration procedure yet. Please contact the business for the correct steps and required documents.";
-  }
-
-  if (/schedule|class|start|horaire|date|emploi du temps/.test(text)) {
-    return "I don't have a verified schedule yet. Please confirm the dates and times with the business directly.";
-  }
-
-  return "I couldn't find a verified answer in this demo. A reliable business assistant should acknowledge missing information instead of inventing an answer.";
 }
 
 export default function App() {
@@ -60,17 +41,16 @@ export default function App() {
     setMessages((current) => [...current, userMessage]);
     setIsLoading(true);
 
-    // Temporary demo behavior. A real API will replace this later.
     window.setTimeout(() => {
-      const response = getDemoResponse(content);
+      const response = getAssistantResponse(content);
 
       setMessages((current) => [
         ...current,
-        createMessage("assistant", response),
+        createMessage("assistant", response.content, response.source),
       ]);
 
       setIsLoading(false);
-    }, 500);
+    }, 400);
   }
 
   const showWelcome = messages.length === 0;
@@ -111,7 +91,7 @@ export default function App() {
               <SuggestedQuestions onSelect={handleSend} />
 
               <p className="demo-notice">
-                Demo mode · Answers are simulated, not AI-generated.
+                Mode base de connaissances · Réponses vérifiées avec sources officielles.
               </p>
             </div>
           ) : (
@@ -124,7 +104,7 @@ export default function App() {
                 <div
                   className="typing-indicator"
                   role="status"
-                  aria-label="Preparing demo response"
+                  aria-label="Recherche dans la base de connaissances..."
                 >
                   <span />
                   <span />
@@ -141,7 +121,7 @@ export default function App() {
           <ChatInput onSend={handleSend} disabled={isLoading} />
 
           <p className="footer-note">
-            Demo only. Always verify important business information.
+            Réponses issues de la base officielle. En cas de doute, contactez l'accueil.
           </p>
         </footer>
       </section>

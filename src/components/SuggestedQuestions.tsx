@@ -4,23 +4,23 @@ interface SuggestedQuestionsProps {
 
 const suggestions = [
   {
-    title: "Available courses",
-    question: "What courses are available?",
+    title: "Formations disponibles",
+    question: "Quels sont les cours disponibles ?",
     icon: "01",
   },
   {
-    title: "Course fees",
-    question: "How much do the courses cost?",
+    title: "Tarifs des cours",
+    question: "Quel est le prix du développement web ?",
     icon: "02",
   },
   {
-    title: "Registration",
-    question: "How do I register?",
+    title: "Modalités d'inscription",
+    question: "Comment s'inscrire à une formation ?",
     icon: "03",
   },
   {
-    title: "Class schedules",
-    question: "When do classes start?",
+    title: "Dates de rentrée",
+    question: "Quand commencent les prochaines formations ?",
     icon: "04",
   },
 ];

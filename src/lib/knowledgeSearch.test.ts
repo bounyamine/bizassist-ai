@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { knowledgeBase } from "../data/knowledgeBase";
-import { searchKnowledge } from "./knowledgeSearch";
+import {
+  FALLBACK_MESSAGE,
+  getAssistantResponse,
+  searchKnowledge,
+} from "./knowledgeSearch";
 
 describe("knowledgeBase", () => {
   it("contains at least 15 FAQs", () => {
@@ -66,3 +70,38 @@ describe("searchKnowledge", () => {
     }
   });
 });
+
+describe("getAssistantResponse", () => {
+  it("returns verified answer and official source when score is sufficient", () => {
+    const response = getAssistantResponse("Quels sont les cours disponibles ?");
+
+    expect(response.matched).toBe(true);
+    expect(response.source).toBe("FAQ officielle fictive — Formations");
+    expect(response.content).toContain("bureautique");
+  });
+
+  it("returns fallback message without source when question is unknown", () => {
+    const response = getAssistantResponse("pingouin intergalactique");
+
+    expect(response.matched).toBe(false);
+    expect(response.source).toBeUndefined();
+    expect(response.content).toBe(FALLBACK_MESSAGE);
+  });
+
+  it("returns fallback message for empty query", () => {
+    const response = getAssistantResponse("   ");
+
+    expect(response.matched).toBe(false);
+    expect(response.source).toBeUndefined();
+    expect(response.content).toBe(FALLBACK_MESSAGE);
+  });
+
+  it("respects a custom confidence threshold", () => {
+    // A high threshold of 20 should reject moderate matches
+    const strictResponse = getAssistantResponse("web", 20);
+
+    expect(strictResponse.matched).toBe(false);
+    expect(strictResponse.content).toBe(FALLBACK_MESSAGE);
+  });
+});
+

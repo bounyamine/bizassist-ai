@@ -24,6 +24,12 @@ export default function ChatMessage({
           {message.content}
         </div>
 
+        {message.source && (
+          <div className="message-source">
+            <span className="source-label">Source :</span> {message.source}
+          </div>
+        )}
+
         <time className="message-time">
           {message.timestamp.toLocaleTimeString([], {
             hour: "2-digit",
