@@ -43,7 +43,7 @@ async function askQuestion(question: string) {
   return { status: res.status, data };
 }
 
-describe("Day 10 — QA & Safety Evaluation Battery (20 Test Questions)", () => {
+describe("QA & Safety Evaluation Battery (20 Test Questions)", () => {
   describe("Group 1: Direct canonical questions (Accuracy & attribution)", () => {
     it("1. Accurately lists available courses (faq-001)", async () => {
       const { status, data } = await askQuestion("Quels sont les cours disponibles ?");
