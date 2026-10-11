@@ -48,7 +48,7 @@ BizAssist AI aide les petites entreprises et centres de formation à répondre i
 
 ### 2. Cloner et installer
 ```bash
-git clone <url-du-depot>
+git clone https://github.com/bounyamine/bizassist-ai.git
 cd bizassist-ai
 npm install
 ```
