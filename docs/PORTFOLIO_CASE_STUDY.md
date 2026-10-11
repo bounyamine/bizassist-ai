@@ -181,3 +181,4 @@ Pour un établissement d'enseignement de taille intermédiaire (500 à 2 000 ét
 ## 🚀 8. Conclusion
 
 Le projet **BizAssist AI** démontre qu'il est possible d'allier la puissance conversationnelle de l'intelligence artificielle générative de pointe (Google Gemini) à la **rigueur absolue d'un système expert métier déterministe**. En plaçant la sécurité, la résilience et l'éthique de la vérité documentaire au cœur de l'architecture, BizAssist AI offre une solution prête pour l'entreprise, commercialisable et génératrice de valeur immédiate.
+
