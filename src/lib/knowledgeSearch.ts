@@ -51,7 +51,7 @@ export function searchKnowledge(
         }
 
         // Keyword matches are especially useful for alternative wording.
-        if (keywords.some((keyword) => tokenize(keyword).includes(token))) {
+        if (keywords.some((keyword: string) => tokenize(keyword).includes(token))) {
           score += 4;
         }
 

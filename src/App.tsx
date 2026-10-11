@@ -3,7 +3,6 @@ import ChatHeader from "./components/ChatHeader";
 import ChatMessage from "./components/ChatMessage";
 import ChatInput from "./components/ChatInput";
 import SuggestedQuestions from "./components/SuggestedQuestions";
-import { getAssistantResponse } from "./lib/knowledgeSearch";
 import type { ChatMessage as ChatMessageType } from "./types";
 import "./App.css";
 
@@ -33,7 +32,7 @@ export default function App() {
     });
   }, [messages, isLoading]);
 
-  function handleSend(content: string) {
+  async function handleSend(content: string) {
     if (isLoading) return;
 
     const userMessage = createMessage("user", content);
@@ -41,16 +40,38 @@ export default function App() {
     setMessages((current) => [...current, userMessage]);
     setIsLoading(true);
 
-    window.setTimeout(() => {
-      const response = getAssistantResponse(content);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: content }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        throw new Error(
+          errData?.error || `Erreur serveur (${res.status})`,
+        );
+      }
+
+      const data: { content: string; source?: string } = await res.json();
 
       setMessages((current) => [
         ...current,
-        createMessage("assistant", response.content, response.source),
+        createMessage("assistant", data.content, data.source),
       ]);
-
+    } catch (error) {
+      console.error("Erreur de communication avec l'API :", error);
+      setMessages((current) => [
+        ...current,
+        createMessage(
+          "assistant",
+          "Désolé, une erreur de communication avec le serveur est survenue. Veuillez vérifier que le serveur backend est en ligne ou réessayer dans un instant.",
+        ),
+      ]);
+    } finally {
       setIsLoading(false);
-    }, 400);
+    }
   }
 
   const showWelcome = messages.length === 0;
