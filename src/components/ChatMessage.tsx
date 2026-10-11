@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ChatMessage as ChatMessageType } from "../types";
 
 interface ChatMessageProps {
@@ -8,10 +9,22 @@ export default function ChatMessage({
   message,
 }: ChatMessageProps) {
   const isUser = message.role === "user";
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(message.content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.warn("Échec de la copie :", err);
+    }
+  }
 
   return (
     <article
       className={`message-row ${isUser ? "user-row" : "assistant-row"}`}
+      aria-label={isUser ? "Votre question" : "Réponse officielle de l'assistant"}
     >
       {!isUser && (
         <div className="message-avatar" aria-hidden="true">
@@ -87,12 +100,55 @@ export default function ChatMessage({
           </div>
         )}
 
-        <time className="message-time">
-          {message.timestamp.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </time>
+        <div className="message-meta">
+          <time className="message-time">
+            {message.timestamp.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </time>
+
+          {!isUser && !message.isError && (
+            <button
+              type="button"
+              className={`copy-button ${copied ? "copied" : ""}`}
+              onClick={handleCopy}
+              aria-label={copied ? "Copié dans le presse-papier" : "Copier la réponse"}
+              title={copied ? "Copié !" : "Copier la réponse"}
+            >
+              {copied ? (
+                <>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    className="copy-icon"
+                    aria-hidden="true"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span className="copy-text">Copié !</span>
+                </>
+              ) : (
+                <>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="copy-icon"
+                    aria-hidden="true"
+                  >
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                  </svg>
+                  <span className="copy-text">Copier</span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
       </div>
     </article>
   );

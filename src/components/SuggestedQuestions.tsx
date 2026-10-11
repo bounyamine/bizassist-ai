@@ -39,6 +39,7 @@ export default function SuggestedQuestions({
             type="button"
             className="suggestion-card"
             onClick={() => onSelect(item.question)}
+            aria-label={`Poser la question : ${item.question}`}
           >
             <span className="suggestion-number">{item.icon}</span>
 

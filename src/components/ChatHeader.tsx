@@ -1,4 +1,9 @@
-export default function ChatHeader() {
+interface ChatHeaderProps {
+  onReset?: () => void;
+  hasMessages?: boolean;
+}
+
+export default function ChatHeader({ onReset, hasMessages }: ChatHeaderProps) {
   return (
     <header className="chat-header">
       <div className="brand-mark" aria-hidden="true">
@@ -15,12 +20,38 @@ export default function ChatHeader() {
       <div className="brand-copy">
         <h1>BizAssist AI</h1>
         <p>
-          <span className="status-dot" />
-          Assistant d'information officiel
+          <span className="status-dot online" aria-hidden="true" />
+          <span>Opérationnel · Réponses officielles</span>
         </p>
       </div>
 
-      <span className="demo-badge">DEMO</span>
+      <div className="header-actions">
+        {hasMessages && onReset && (
+          <button
+            type="button"
+            className="new-chat-button"
+            onClick={onReset}
+            title="Démarrer une nouvelle conversation"
+            aria-label="Démarrer une nouvelle conversation"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="new-chat-icon"
+              aria-hidden="true"
+            >
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+              <path d="M21 3v5h-5" />
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+              <path d="M3 21v-5h5" />
+            </svg>
+            <span className="new-chat-label">Nouveau chat</span>
+          </button>
+        )}
+        <span className="demo-badge">DÉMO</span>
+      </div>
     </header>
   );
 }

@@ -100,8 +100,15 @@ export default function App() {
 
   return (
     <main className="app-shell">
+      <a href="#chat-message" className="skip-link">
+        Passer directement au champ de saisie
+      </a>
+
       <section className="chat-panel" aria-label="BizAssist AI chat">
-        <ChatHeader />
+        <ChatHeader
+          onReset={() => setMessages([])}
+          hasMessages={messages.length > 0}
+        />
 
         <div className="chat-body">
           {showWelcome ? (
@@ -138,7 +145,14 @@ export default function App() {
               </p>
             </div>
           ) : (
-            <div className="conversation" aria-live="polite">
+            <div
+              className="conversation"
+              role="log"
+              aria-live="polite"
+              aria-atomic="false"
+              aria-relevant="additions text"
+              aria-busy={isLoading}
+            >
               {messages.map((message) => (
                 <ChatMessage key={message.id} message={message} />
               ))}
@@ -147,7 +161,7 @@ export default function App() {
                 <div
                   className="typing-indicator"
                   role="status"
-                  aria-label="Recherche dans la base de connaissances..."
+                  aria-label="Recherche et génération de la réponse officielle..."
                 >
                   <span />
                   <span />
