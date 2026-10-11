@@ -128,7 +128,7 @@ bizassist-ai/
 * **Semaine 2 (Intelligence artificielle & Portfolio)**
   * [x] **Day 8** : Connexion au modèle IA (Google Gemini RAG contextualisé avec fallback résilient).
   * [x] **Day 9** : Attribution fine des sources (Based on) et carte de contact d'assistance humaine.
-  * [ ] **Day 10** : Campagne de tests qualité & sécurité des réponses.
+  * [x] **Day 10** : Campagne de tests qualité & sécurité des réponses (banc de 20 tests, rapport [`docs/QA_SAFETY_REPORT.md`](docs/QA_SAFETY_REPORT.md)).
   * [ ] **Day 11** : Finitions UI/UX, accessibilité et design mobile.
   * [ ] **Day 12** : Rédaction de l'étude de cas pour le portfolio.
   * [ ] **Day 13** : Validation de l'offre auprès de premiers prospects.

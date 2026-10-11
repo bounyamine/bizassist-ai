@@ -124,7 +124,17 @@ export const knowledgeBase: KnowledgeEntry[] = [
     question: "Quels sont les horaires des cours ?",
     answer:
       "Les horaires exacts dépendent de la formation et de la session. Ils ne sont pas précisés dans cette base de démonstration ; demandez le planning à l'accueil.",
-    keywords: ["horaires", "heure", "planning", "emploi du temps", "cours"],
+    keywords: [
+      "horaires",
+      "heure",
+      "planning",
+      "emploi du temps",
+      "cours",
+      "soir",
+      "weekend",
+      "samedi",
+      "matin",
+    ],
     source: "FAQ officielle fictive — Calendrier",
   },
   {
