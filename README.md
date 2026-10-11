@@ -53,7 +53,18 @@ cd bizassist-ai
 npm install
 ```
 
-### 3. Lancer en mode développement
+### 3. Configurer l'environnement (Google Gemini)
+Créez votre fichier local `.env` (optionnel si vous souhaitez tester le mode 100% local déterministe) :
+```bash
+cp .env.example .env
+```
+Puis renseignez votre clé d'API gratuite obtenue sur [Google AI Studio](https://aistudio.google.com/) :
+```env
+GEMINI_API_KEY=votre_cle_ici
+GEMINI_MODEL=gemini-3.1-flash-lite
+```
+
+### 4. Lancer en mode développement
 Ouvrez deux terminaux :
 
 ```bash
@@ -115,7 +126,7 @@ bizassist-ai/
   * [x] **Day 6** : Création de l'API Backend Express (`POST /api/chat`).
   * [x] **Day 7** : Revue, stabilisation du MVP, gestion des erreurs et documentation.
 * **Semaine 2 (Intelligence artificielle & Portfolio)**
-  * [ ] **Day 8** : Connexion au modèle IA (RAG contextualisé).
+  * [x] **Day 8** : Connexion au modèle IA (Google Gemini RAG contextualisé avec fallback résilient).
   * [ ] **Day 9** : Attribution fine des sources et garde-fous anti-hallucination.
   * [ ] **Day 10** : Campagne de tests qualité & sécurité des réponses.
   * [ ] **Day 11** : Finitions UI/UX, accessibilité et design mobile.

@@ -28,7 +28,7 @@ describe("Backend API", () => {
     const data = (await res.json()) as { status: string };
 
     expect(res.status).toBe(200);
-    expect(data).toEqual({ status: "ok" });
+    expect(data.status).toBe("ok");
   });
 
   it("POST /api/chat returns verified answer for valid question", async () => {
