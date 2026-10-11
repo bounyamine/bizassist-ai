@@ -306,6 +306,12 @@
   border-radius: 16px 4px 16px 16px;
 }
 
+.error-bubble {
+  background: #fff5f5;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
 .message-source {
   display: inline-flex;
   align-items: center;

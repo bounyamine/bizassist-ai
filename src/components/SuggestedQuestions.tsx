@@ -30,7 +30,7 @@ export default function SuggestedQuestions({
 }: SuggestedQuestionsProps) {
   return (
     <section className="suggestions" aria-labelledby="suggestions-title">
-      <h2 id="suggestions-title">Try asking about</h2>
+      <h2 id="suggestions-title">Questions fréquentes</h2>
 
       <div className="suggestion-grid">
         {suggestions.map((item) => (

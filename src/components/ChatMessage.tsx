@@ -20,7 +20,11 @@ export default function ChatMessage({
       )}
 
       <div className="message-content">
-        <div className={`message-bubble ${isUser ? "user-bubble" : ""}`}>
+        <div
+          className={`message-bubble ${isUser ? "user-bubble" : ""} ${
+            message.isError ? "error-bubble" : ""
+          }`}
+        >
           {message.content}
         </div>
 

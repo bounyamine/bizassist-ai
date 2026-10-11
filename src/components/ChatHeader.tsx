@@ -16,7 +16,7 @@ export default function ChatHeader() {
         <h1>BizAssist AI</h1>
         <p>
           <span className="status-dot" />
-          Business information assistant
+          Assistant d'information officiel
         </p>
       </div>
 

@@ -25,7 +25,7 @@ export default function ChatInput({
   return (
     <form className="chat-input-form" onSubmit={handleSubmit}>
       <label className="sr-only" htmlFor="chat-message">
-        Your message
+        Votre message
       </label>
 
       <textarea
@@ -33,9 +33,9 @@ export default function ChatInput({
         className="chat-textarea"
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        placeholder="Ask a question about the business..."
+        placeholder="Posez votre question sur nos formations, tarifs, horaires..."
         rows={1}
-        maxLength={1000}
+        maxLength={500}
         disabled={disabled}
         onKeyDown={(event) => {
           if (
@@ -53,7 +53,7 @@ export default function ChatInput({
         className="send-button"
         type="submit"
         disabled={disabled || !value.trim()}
-        aria-label="Send message"
+        aria-label="Envoyer le message"
       >
         <svg
           viewBox="0 0 24 24"

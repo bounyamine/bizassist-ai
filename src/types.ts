@@ -6,6 +6,7 @@ export interface ChatMessage {
   content: string;
   timestamp: Date;
   source?: string;
+  isError?: boolean;
 }
 
 export type KnowledgeCategory =

@@ -10,6 +10,7 @@ function createMessage(
   role: ChatMessageType["role"],
   content: string,
   source?: string,
+  isError?: boolean,
 ): ChatMessageType {
   return {
     id: crypto.randomUUID(),
@@ -17,6 +18,7 @@ function createMessage(
     content,
     timestamp: new Date(),
     source,
+    isError,
   };
 }
 
@@ -62,11 +64,15 @@ export default function App() {
       ]);
     } catch (error) {
       console.error("Erreur de communication avec l'API :", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Erreur de communication";
       setMessages((current) => [
         ...current,
         createMessage(
           "assistant",
-          "Désolé, une erreur de communication avec le serveur est survenue. Veuillez vérifier que le serveur backend est en ligne ou réessayer dans un instant.",
+          `⚠️ ${errorMessage}. Veuillez vérifier que le serveur backend est démarré ou réessayer dans un instant.`,
+          undefined,
+          true,
         ),
       ]);
     } finally {
@@ -96,17 +102,17 @@ export default function App() {
                 </svg>
               </div>
 
-              <p className="eyebrow">YOUR BUSINESS, MADE SIMPLER</p>
+              <p className="eyebrow">VOTRE CENTRE DE FORMATION, EN TOUTE SIMPLICITÉ</p>
 
               <h2>
-                How can I
+                Comment puis-je
                 <br />
-                help you today?
+                vous aider aujourd'hui ?
               </h2>
 
               <p className="welcome-description">
-                Ask a question about a business's services, prices,
-                registration, or schedules.
+                Posez vos questions sur nos formations disponibles, nos tarifs,
+                les inscriptions ou les dates de rentrée.
               </p>
 
               <SuggestedQuestions onSelect={handleSend} />
