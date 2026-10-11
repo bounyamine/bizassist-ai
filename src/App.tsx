@@ -11,6 +11,8 @@ function createMessage(
   content: string,
   source?: string,
   isError?: boolean,
+  sources?: ChatMessageType["sources"],
+  needsHumanContact?: boolean,
 ): ChatMessageType {
   return {
     id: crypto.randomUUID(),
@@ -19,6 +21,8 @@ function createMessage(
     timestamp: new Date(),
     source,
     isError,
+    sources,
+    needsHumanContact,
   };
 }
 
@@ -56,11 +60,23 @@ export default function App() {
         );
       }
 
-      const data: { content: string; source?: string } = await res.json();
+      const data: {
+        content: string;
+        source?: string;
+        sources?: ChatMessageType["sources"];
+        needsHumanContact?: boolean;
+      } = await res.json();
 
       setMessages((current) => [
         ...current,
-        createMessage("assistant", data.content, data.source),
+        createMessage(
+          "assistant",
+          data.content,
+          data.source,
+          false,
+          data.sources,
+          data.needsHumanContact,
+        ),
       ]);
     } catch (error) {
       console.error("Erreur de communication avec l'API :", error);

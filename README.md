@@ -127,7 +127,7 @@ bizassist-ai/
   * [x] **Day 7** : Revue, stabilisation du MVP, gestion des erreurs et documentation.
 * **Semaine 2 (Intelligence artificielle & Portfolio)**
   * [x] **Day 8** : Connexion au modèle IA (Google Gemini RAG contextualisé avec fallback résilient).
-  * [ ] **Day 9** : Attribution fine des sources et garde-fous anti-hallucination.
+  * [x] **Day 9** : Attribution fine des sources (Based on) et carte de contact d'assistance humaine.
   * [ ] **Day 10** : Campagne de tests qualité & sécurité des réponses.
   * [ ] **Day 11** : Finitions UI/UX, accessibilité et design mobile.
   * [ ] **Day 12** : Rédaction de l'étude de cas pour le portfolio.

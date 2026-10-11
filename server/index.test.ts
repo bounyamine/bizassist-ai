@@ -31,7 +31,7 @@ describe("Backend API", () => {
     expect(data.status).toBe("ok");
   });
 
-  it("POST /api/chat returns verified answer for valid question", async () => {
+  it("POST /api/chat returns verified answer for valid question with structured sources", async () => {
     const res = await fetch(`${baseUrl}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -40,13 +40,38 @@ describe("Backend API", () => {
     const data = (await res.json()) as {
       matched: boolean;
       source: string;
+      sources: Array<{ id: string; question: string; source: string }>;
       content: string;
+      needsHumanContact: boolean;
     };
 
     expect(res.status).toBe(200);
     expect(data.matched).toBe(true);
     expect(data.source).toBe("FAQ officielle fictive — Formations");
+    expect(data.sources.length).toBeGreaterThan(0);
+    expect(data.sources[0].id).toBe("faq-001");
+    expect(data.needsHumanContact).toBe(false);
     expect(data.content).toContain("bureautique");
+  });
+
+  it("POST /api/chat flags missing information and provides human contact fallback", async () => {
+    const res = await fetch(`${baseUrl}/api/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "pingouin intergalactique" }),
+    });
+    const data = (await res.json()) as {
+      matched: boolean;
+      sources: Array<{ id: string }>;
+      needsHumanContact: boolean;
+      content: string;
+    };
+
+    expect(res.status).toBe(200);
+    expect(data.matched).toBe(false);
+    expect(data.sources).toHaveLength(0);
+    expect(data.needsHumanContact).toBe(true);
+    expect(data.content).toContain("Je n'ai pas trouvé de réponse officielle");
   });
 
   it("POST /api/chat validates empty message", async () => {

@@ -7,6 +7,7 @@ import {
   MIN_CONFIDENCE_SCORE,
   searchKnowledge,
 } from "../src/lib/knowledgeSearch.ts";
+import type { SourceAttribution } from "../src/types.ts";
 import { generateAnswerWithGemini, isGeminiConfigured } from "./gemini.ts";
 
 const rootEnvPath = path.resolve(import.meta.dirname, "../.env");
@@ -64,6 +65,13 @@ app.post("/api/chat", async (req: Request, res: Response) => {
 
     // Vérifier si un résultat dépasse le seuil minimum de pertinence
     if (bestMatch && bestMatch.score >= MIN_CONFIDENCE_SCORE) {
+      const sources: SourceAttribution[] = results.map((r) => ({
+        id: r.entry.id,
+        category: r.entry.category,
+        question: r.entry.question,
+        source: r.entry.source,
+      }));
+
       // Si Gemini est configuré, on génère une réponse polie contrainte au contexte
       if (isGeminiConfigured()) {
         try {
@@ -73,11 +81,30 @@ app.post("/api/chat", async (req: Request, res: Response) => {
             relevantEntries,
           );
 
+          // Détecter si Gemini a explicitement refusé de répondre par manque d'information
+          const isRefusal =
+            aiResponse.includes("Je n'ai pas trouvé de réponse officielle") ||
+            aiResponse.includes("contacter directement notre accueil");
+
+          if (isRefusal) {
+            res.status(200).json({
+              content: aiResponse,
+              source: undefined,
+              sources: [],
+              matched: false,
+              provider: "gemini-refusal",
+              needsHumanContact: true,
+            });
+            return;
+          }
+
           res.status(200).json({
             content: aiResponse,
             source: bestMatch.entry.source,
+            sources,
             matched: true,
             provider: "gemini",
+            needsHumanContact: false,
           });
           return;
         } catch (geminiError) {
@@ -93,8 +120,10 @@ app.post("/api/chat", async (req: Request, res: Response) => {
       res.status(200).json({
         content: bestMatch.entry.answer,
         source: bestMatch.entry.source,
+        sources,
         matched: true,
         provider: "knowledge-base",
+        needsHumanContact: false,
       });
       return;
     }
@@ -102,8 +131,10 @@ app.post("/api/chat", async (req: Request, res: Response) => {
     // Aucun résultat pertinent -> Fallback sécurisé anti-hallucination
     res.status(200).json({
       content: FALLBACK_MESSAGE,
+      sources: [],
       matched: false,
       provider: "safe-fallback",
+      needsHumanContact: true,
     });
   } catch (error) {
     console.error("Erreur serveur dans /api/chat:", error);

@@ -330,6 +330,138 @@
   color: var(--blue);
 }
 
+/* Sources Attribution Panel (Day 9) */
+.message-sources-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 11px;
+  color: #334155;
+  max-width: 100%;
+}
+
+.sources-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.sources-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.sources-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.source-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 6px;
+  line-height: 1.4;
+}
+
+.source-ref {
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 10px;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.source-question {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.source-doc {
+  color: #64748b;
+  font-size: 10px;
+}
+
+/* Human Contact Fallback Card (Day 9) */
+.human-contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #92400e;
+  margin-top: 4px;
+  max-width: 100%;
+}
+
+.contact-card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #78350f;
+  font-size: 12px;
+}
+
+.contact-card-desc {
+  margin: 0;
+  line-height: 1.5;
+  color: #92400e;
+  font-size: 11px;
+}
+
+.contact-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: #fff;
+  border: 1px solid #fcd34d;
+  border-radius: 6px;
+  color: #78350f;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 120ms ease;
+}
+
+.contact-pill:hover {
+  background: #fef3c7;
+  border-color: #f59e0b;
+}
+
+.contact-pill.primary {
+  background: #d97706;
+  border-color: #b45309;
+  color: #fff;
+}
+
+.contact-pill.primary:hover {
+  background: #b45309;
+}
+
 .message-time {
   padding: 0 3px;
   color: #94a3b8;
